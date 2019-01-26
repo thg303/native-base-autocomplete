@@ -139,7 +139,7 @@ class Autocomplete extends Component {
     const { onEndEditing, renderTextInput, style } = this.props;
     const props = {
       style: [styles.input, style],
-      ref: ref => (this.textInput = ref),
+      ref: (ref) => { this.textInput = ref; },
       onEndEditing: e => onEndEditing && onEndEditing(e),
       ...this.props
     };

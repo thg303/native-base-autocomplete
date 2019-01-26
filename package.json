@@ -1,6 +1,6 @@
 {
   "name": "native-base-autocomplete",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "pure javascript autocomplete input for native-base",
   "main": "index.js",
   "options": {
@@ -35,8 +35,8 @@
   },
   "homepage": "https://github.com/thg303/native-base-autocomplete#readme",
   "dependencies": {
-    "native-base": "^2.3.3",
-    "prop-types": "^15.5.10"
+    "native-base": "^2.10.0",
+    "prop-types": "^15.6.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
