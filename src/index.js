@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  ListView,
-  Platform,
-  StyleSheet,
-  View,
-  ViewPropTypes as RNViewPropTypes
-} from 'react-native';
-
-import {
-  Text,
-  Input
-} from 'native-base';
+import {ListView, Platform, ViewPropTypes as RNViewPropTypes, StyleSheet} from 'react-native';
+import {Text, Input, View, Item} from 'native-base';
 
 const ViewPropTypes = RNViewPropTypes || View.propTypes;
 
@@ -52,7 +42,7 @@ class Autocomplete extends Component {
     /**
      * These style will be applied to the result list.
      */
-    listStyle: ListView.propTypes.style,
+    listStyle: ViewPropTypes.style,
     /**
      * `onShowResults` will be called when list is going to
      * show/hide results.
@@ -77,7 +67,11 @@ class Autocomplete extends Component {
     /**
      * renders custom TextInput. All props passed to this function.
      */
-    renderTextInput: PropTypes.func
+    renderTextInput: PropTypes.func,
+    /**
+    * `rowHasChanged` will be used for data objects comparison for dataSource
+    */
+    rowHasChanged: PropTypes.func
   };
 
   static defaultProps = {
@@ -87,13 +81,14 @@ class Autocomplete extends Component {
     onStartShouldSetResponderCapture: () => false,
     renderItem: rowData => <Text>{rowData}</Text>,
     renderSeparator: null,
-    renderTextInput: props => <Input {...props} />
+    renderTextInput: props => <Item><Input {...props} /></Item>,
+    rowHasChanged: (r1, r2) => r1 !== r2
   };
 
   constructor(props) {
     super(props);
 
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    const ds = new ListView.DataSource({ rowHasChanged: props.rowHasChanged });
     this.state = { dataSource: ds.cloneWithRows(props.data) };
     this.resultList = null;
   }
@@ -121,7 +116,14 @@ class Autocomplete extends Component {
 
   renderResultList() {
     const { dataSource } = this.state;
-    const { listStyle, renderItem, renderSeparator, keyboardShouldPersistTaps } = this.props;
+    const {
+      listStyle,
+      renderItem,
+      renderSeparator,
+      keyboardShouldPersistTaps,
+      onEndReached,
+      onEndReachedThreshold
+    } = this.props;
 
     return (
       <ListView
@@ -130,6 +132,8 @@ class Autocomplete extends Component {
         keyboardShouldPersistTaps={keyboardShouldPersistTaps}
         renderRow={renderItem}
         renderSeparator={renderSeparator}
+        onEndReached={onEndReached}
+        onEndReachedThreshold={onEndReachedThreshold}
         style={[styles.list, listStyle]}
       />
     );
@@ -158,15 +162,14 @@ class Autocomplete extends Component {
       onStartShouldSetResponderCapture
     } = this.props;
     const showResults = dataSource.getRowCount() > 0;
-
     // Notify listener if the suggestion will be shown.
     onShowResults && onShowResults(showResults);
 
     return (
       <View style={[styles.container, containerStyle]}>
-        <View style={[styles.inputContainer, inputContainerStyle]}>
+        <Item style={[styles.inputContainer, inputContainerStyle]}>
           {this.renderTextInput()}
-        </View>
+        </Item>
         {!hideResults && (
           <View
             style={listContainerStyle}
@@ -177,18 +180,19 @@ class Autocomplete extends Component {
         )}
       </View>
     );
+
   }
 }
 
 const border = {
   borderColor: '#b9b9b9',
-  borderBottomWidth: 1
+  borderRadius: 1,
+  borderWidth: 1
 };
 
 const androidStyles = {
   container: {
-    flex: 1,
-    marginBottom: 10
+    flex: 1
   },
   inputContainer: {
     ...border,
@@ -198,8 +202,6 @@ const androidStyles = {
     ...border,
     backgroundColor: 'white',
     borderTopWidth: 0,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
     margin: 10,
     marginTop: 0
   }
@@ -208,7 +210,6 @@ const androidStyles = {
 const iosStyles = {
   container: {
     zIndex: 1,
-    marginBottom: 10
   },
   inputContainer: {
     ...border
@@ -222,9 +223,8 @@ const iosStyles = {
     ...border,
     backgroundColor: 'white',
     borderTopWidth: 0,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
     left: 0,
+    position: 'absolute',
     right: 0
   }
 };

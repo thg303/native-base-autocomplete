@@ -47,7 +47,7 @@ render() {
 A complete example for Android and iOS can be found [here](//github.com/thg303/native-base-autocomplete/blob/master/example/).
 
 ### Android
-Android does not support overflows ([#20](https://github.com/thg303/native-base-autocomplete/issues/20)), for that reason it is necessary to wrap the autocomplete into a *absolute* positioned view on Android. This will  allow the suggestion list to overlap other views inside your component.
+Android does not support overflows, for that reason it is necessary to wrap the autocomplete into a *absolute* positioned view on Android. This will  allow the suggestion list to overlap other views inside your component.
 
 ```javascript
 //...
@@ -60,8 +60,8 @@ render() {
       </View>
       <View>
         <Text>Some content</Text>
-      <View />
-    <View>
+      </View>
+    </View>
   );
 }
 
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
 | renderTextInput | function | render custom TextInput. All props passed to this function. |
 
 ## Known issues
-* By default the autocomplete will not behave as expected inside a `<ScrollView />`. Set the scroll view's prop to fix this: `keyboardShouldPersistTaps={true}` for RN <= 0.39, or `keyboardShouldPersistTaps='always'` for RN >= 0.40. ([#5](https://github.com/thg303/native-base-autocomplete/issues/5)).
+* By default the autocomplete will not behave as expected inside a `<ScrollView />`. Set the scroll view's prop to fix this: `keyboardShouldPersistTaps={true}` for RN <= 0.39, or `keyboardShouldPersistTaps='always'` for RN >= 0.40.
 * If you want to test with Jest add ```jest.mock('native-base-autocomplete', () => 'Autocomplete');``` to your test.
 
 ## Contribute

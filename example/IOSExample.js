@@ -13,7 +13,7 @@ import {
 const API = 'https://swapi.co/api';
 const ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
 
-class AutocompleteExample extends Component {
+class AndroidExample extends Component {
   static renderFilm(film) {
     const { title, director, opening_crawl, episode_id } = film;
     const roman = episode_id < ROMAN.length ? ROMAN[episode_id] : episode_id;
@@ -77,12 +77,12 @@ class AutocompleteExample extends Component {
         />
         <View style={styles.descriptionContainer}>
           {films.length > 0 ? (
-            AutocompleteExample.renderFilm(films[0])
-          ) : (
-            <Text style={styles.infoText}>
-              Enter Title of a Star Wars movie
-            </Text>
-          )}
+              AndroidExample.renderFilm(films[0])
+            ) : (
+              <Text style={styles.infoText}>
+                Enter Title of a Star Wars movie
+              </Text>
+            )}
         </View>
       </View>
     );
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     right: 0,
-    top: 0,
+    top: 100,
     zIndex: 1
   },
   itemText: {
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     // `backgroundColor` needs to be set otherwise the
     // autocomplete input will disappear on text input.
     backgroundColor: '#F5FCFF',
-    marginTop: 25
+    marginTop: 125
   },
   infoText: {
     textAlign: 'center'
@@ -134,4 +134,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AutocompleteExample;
+export default AndroidExample;
