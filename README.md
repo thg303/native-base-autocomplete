@@ -45,6 +45,7 @@ render() {
 ```
 
 A complete example for Android and iOS can be found [here](//github.com/thg303/native-base-autocomplete/blob/master/example/).
+also don't forget to check the [snack version](https://snack.expo.io/@thg303/native-base-autocomplete) of the example too.
 
 ### Android
 Android does not support overflows, for that reason it is necessary to wrap the autocomplete into a *absolute* positioned view on Android. This will  allow the suggestion list to overlap other views inside your component.
@@ -103,4 +104,4 @@ const styles = StyleSheet.create({
 Feel free to open issues or do a PR!
 
 ## Credit
-package originally was made by **Laurence Bortfeld**
+package originally was made by **Laurence Bortfeld** as **react-native-autocomplete-input**
