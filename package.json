@@ -1,6 +1,6 @@
 {
   "name": "native-base-autocomplete",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "description": "pure javascript autocomplete input for native-base",
   "main": "src/index.js",
   "options": {
@@ -19,7 +19,7 @@
   "files": [
     "LICENSE",
     "README.md",
-    "index.js"
+    "src/"
   ],
   "keywords": [
     "react-native",
@@ -41,10 +41,10 @@
     "react": "*"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.0",
     "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/register": "^7.4.0",
-    "@babel/core": "^7.4.0",
     "@babel/runtime": "^7.4.2",
     "@react-native-community/eslint-config": "^0.0.3",
     "babel-jest": "^24.5.0",
@@ -60,8 +60,10 @@
     "jest": "^24.5.0",
     "metro-react-native-babel-preset": "^0.53.1",
     "mocha": "^6.0.2",
+    "native-base": "^2.12.1",
     "nyc": "^13.3.0",
-    "react": "~15.4.0-rc.4",
+    "prop-types": "^15.7.2",
+    "react": "^15.4.2",
     "react-addons-test-utils": "^15.2.1",
     "react-native": "^0.58.6",
     "react-native-mock": "^0.3.1",
