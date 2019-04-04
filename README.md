@@ -7,7 +7,11 @@ A pure JS autocomplete component for React Native. Use this component in your ow
 ![Autocomplete Example](https://raw.githubusercontent.com/thg303/native-base-autocomplete/master/example.gif)
 
 ## How to use native-base-autocomplete
-Tested with RN >= 0.26.2. and native-base 2.3.3
+Tested with RN >= 0.26.2. and native-base >= 2.3.3 
+
+### changelog
+Since 1.3.0 the `renderSeparator` prop is removed. sorry about that. if you need that option please consider using previous version.
+Please note that `inputContainerStyle` is deprecated and will be removed soon, to applying style please use `itemProps` instead. 
 
 ### Installation
 
@@ -34,9 +38,9 @@ render() {
     defaultValue={query}
     onChangeText={text => this.setState({ query: text })}
     renderItem={data => (
-      <TouchableOpacity onPress={() => this.setState({ query: data })}>
+      <ListItem onPress={() => this.setState({ query: data })}>
         <Text>{data}</Text>
-      </TouchableOpacity>
+      </ListItem>
     )}
   />);
 }
@@ -45,7 +49,7 @@ render() {
 ```
 
 A complete example for Android and iOS can be found [here](//github.com/thg303/native-base-autocomplete/blob/master/example/).
-also don't forget to check the [snack version](https://snack.expo.io/@thg303/native-base-autocomplete) of the example too.
+Also don't forget to check the [snack version](https://snack.expo.io/@thg303/native-base-autocomplete) for a live experience .
 
 ### Android
 Android does not support overflows, for that reason it is necessary to wrap the autocomplete into a *absolute* positioned view on Android. This will  allow the suggestion list to overlap other views inside your component.
@@ -87,13 +91,15 @@ const styles = StyleSheet.create({
 | containerStyle | style | These styles will be applied to the container which surrounds the autocomplete component. |
 | hideResults | bool | Set to `true` to hide the suggestion list.
 | data | array | An array with suggestion items to be rendered in `renderItem(item)`. Any array with length > 0 will open the suggestion list and any array with length < 1 will hide the list. |
-| inputContainerStyle | style | These styles will be applied to the container which surrounds the textInput component. |
+| inputContainerStyle | style | These styles will be applied to the container which surrounds the Input component. [deprecated: it would be removed in favor of itemProps]
+| itemProps | object | These props will be applied to the Item component which surrounds the Input component. note that if `inputContainerStyle` was present styles in this object would be override by those.
 | listContainerStyle | style | These styles will be applied to the container which surrounds the result list. |
 | listStyle | style | These style will be applied to the result list. |
 | onShowResult | function | `onShowResult` will be called when the autocomplete suggestions appear or disappear. |
 | onStartShouldSetResponderCapture | function | `onStartShouldSetResponderCapture` will be passed to the result list view container ([onStartShouldSetResponderCapture](https://facebook.github.io/react-native/docs/gesture-responder-system.html#capture-shouldset-handlers)). |
-| renderItem | function | `renderItem` will be called to render the data objects which will be displayed in the result view below the text input. |
-| renderSeparator | function | `renderSeparator` will be called to render the list separators which will be displayed between the list elements in the result view below the text input. |
+| renderItem | function | `renderItem` will be called to render the data objects which will be displayed in the result view below the text input. you may use `ListItem` component, please checkout the example code. |
+| renderSeparator | function | this was unnecessary and removed! |
+| listProps | object | ﻿`listProps` will be applied to the List component which renders the suggestion list below the text input. please checkout `List` component at native-base documentation for available options. please note that *button*, *dataArray* and *renderRow* props are already token to make this component work. also please use `listStyle` instead of `style` to applying style |
 | renderTextInput | function | render custom TextInput. All props passed to this function. |
 
 ## Known issues

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {ListView, Platform, ViewPropTypes as RNViewPropTypes, StyleSheet} from 'react-native';
-import {Text, Input, View, Item} from 'native-base';
+import { Platform, ViewPropTypes as RNViewPropTypes, StyleSheet } from 'react-native';
+import { Text, Input, View, Item, List, ListItem } from 'native-base';
 
 const ViewPropTypes = RNViewPropTypes || View.propTypes;
 
@@ -24,9 +24,15 @@ class Autocomplete extends Component {
     hideResults: PropTypes.bool,
     /*
      * These styles will be applied to the container which surrounds
-     * the textInput component.
+     * the Input component. [deprecated: it would be removed in favor of itemProps]
      */
     inputContainerStyle: ViewPropTypes.style,
+    /*
+     * These props will be applied to the Item component which surrounds
+     * the Input component. note that if *inputContainerStyle* was present
+     * styles in this object would be override by those.
+     */
+    itemComponentProps: PropTypes.object,
     /*
      * Set `keyboardShouldPersistTaps` to true if RN version is <= 0.39.
      */
@@ -55,23 +61,19 @@ class Autocomplete extends Component {
     /**
      * `renderItem` will be called to render the data objects
      * which will be displayed in the result view below the
-     * text input.
+     * text input. you may use `ListItem` component, please checkout the example code.
      */
     renderItem: PropTypes.func,
     /**
-     * `renderSeparator` will be called to render the list separators
-     * which will be displayed between the list elements in the result view
-     * below the text input.
+     * `listProps` will be applied to List component which renders the suggestion list
+     * below the text input. please checkout `List` component at native-base documentation
+     * for available options
      */
-    renderSeparator: PropTypes.func,
+    listProps: PropTypes.object,
     /**
      * renders custom TextInput. All props passed to this function.
      */
-    renderTextInput: PropTypes.func,
-    /**
-    * `rowHasChanged` will be used for data objects comparison for dataSource
-    */
-    rowHasChanged: PropTypes.func
+    renderTextInput: PropTypes.func
   };
 
   static defaultProps = {
@@ -79,23 +81,16 @@ class Autocomplete extends Component {
     defaultValue: '',
     keyboardShouldPersistTaps: 'always',
     onStartShouldSetResponderCapture: () => false,
-    renderItem: rowData => <Text>{rowData}</Text>,
-    renderSeparator: null,
-    renderTextInput: props => <Item><Input {...props} /></Item>,
-    rowHasChanged: (r1, r2) => r1 !== r2
+    renderItem: rowData => <ListItem onPress={() => {}}><Text>{rowData}</Text></ListItem>,
+    listProps: null,
+    renderTextInput: props => <Input {...props} />,
+    itemProps: {}
   };
 
   constructor(props) {
     super(props);
 
-    const ds = new ListView.DataSource({ rowHasChanged: props.rowHasChanged });
-    this.state = { dataSource: ds.cloneWithRows(props.data) };
     this.resultList = null;
-  }
-
-  componentWillReceiveProps({ data }) {
-    const dataSource = this.state.dataSource.cloneWithRows(data);
-    this.setState({ dataSource });
   }
 
   /**
@@ -114,27 +109,26 @@ class Autocomplete extends Component {
     textInput && textInput.focus();
   }
 
+  // TODO: check how to replace this List with native-base List and ListItem
+
   renderResultList() {
-    const { dataSource } = this.state;
     const {
+      data,
       listStyle,
       renderItem,
-      renderSeparator,
-      keyboardShouldPersistTaps,
-      onEndReached,
-      onEndReachedThreshold
+      listProps,
+      keyboardShouldPersistTaps
     } = this.props;
 
     return (
-      <ListView
-        ref={(resultList) => { this.resultList = resultList; }}
-        dataSource={dataSource}
+      <List
+        button={true}
         keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+        ref={(resultList) => { this.resultList = resultList; }}
+        dataArray={data}
         renderRow={renderItem}
-        renderSeparator={renderSeparator}
-        onEndReached={onEndReached}
-        onEndReachedThreshold={onEndReachedThreshold}
         style={[styles.list, listStyle]}
+        {...listProps}
       />
     );
   }
@@ -142,7 +136,7 @@ class Autocomplete extends Component {
   renderTextInput() {
     const { onEndEditing, renderTextInput, style } = this.props;
     const props = {
-      style: [styles.input, style],
+      style,
       ref: (ref) => { this.textInput = ref; },
       onEndEditing: e => onEndEditing && onEndEditing(e),
       ...this.props
@@ -152,22 +146,24 @@ class Autocomplete extends Component {
   }
 
   render() {
-    const { dataSource } = this.state;
     const {
+      data,
       containerStyle,
       hideResults,
       inputContainerStyle,
+      itemProps,
       listContainerStyle,
       onShowResults,
       onStartShouldSetResponderCapture
     } = this.props;
-    const showResults = dataSource.getRowCount() > 0;
+    const showResults = data.length > 0;
     // Notify listener if the suggestion will be shown.
     onShowResults && onShowResults(showResults);
+    const { style, ...restOfItemProps } = itemProps;
 
     return (
       <View style={[styles.container, containerStyle]}>
-        <Item style={[styles.inputContainer, inputContainerStyle]}>
+        <Item style={[style || {}, inputContainerStyle]} {...restOfItemProps}>
           {this.renderTextInput()}
         </Item>
         {!hideResults && (
@@ -180,48 +176,31 @@ class Autocomplete extends Component {
         )}
       </View>
     );
-
   }
 }
-
-const border = {
-  borderColor: '#b9b9b9',
-  borderRadius: 1,
-  borderWidth: 1
-};
 
 const androidStyles = {
   container: {
     flex: 1
   },
-  inputContainer: {
-    ...border,
-    marginBottom: 0
-  },
   list: {
-    ...border,
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255,255,255,0.7)',
     borderTopWidth: 0,
-    margin: 10,
-    marginTop: 0
+    left: 0,
+    position: 'absolute',
+    zIndex: 30,
+    right: 0,
+    marginTop: 0,
+    marginBottom: 0
   }
 };
 
 const iosStyles = {
   container: {
-    zIndex: 1,
-  },
-  inputContainer: {
-    ...border
-  },
-  input: {
-    backgroundColor: 'white',
-    height: 40,
-    paddingLeft: 3
+    zIndex: 1
   },
   list: {
-    ...border,
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255,255,255,0.7)',
     borderTopWidth: 0,
     left: 0,
     position: 'absolute',
@@ -230,11 +209,6 @@ const iosStyles = {
 };
 
 const styles = StyleSheet.create({
-  input: {
-    backgroundColor: 'white',
-    height: 40,
-    paddingLeft: 3
-  },
   ...Platform.select({
     android: { ...androidStyles },
     ios: { ...iosStyles }

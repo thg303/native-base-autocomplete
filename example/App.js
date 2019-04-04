@@ -1,13 +1,10 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import AndroidExample from './AndroidExample';
-import IOSExample from './IOSExample';
+import Example from './Example';
+import FontLoader from './FontLoader';
 
-export default class App extends React.Component {
-  render() {
-    if (Platform.OS === 'ios') {
-      return (<IOSExample />);
-    }
-    return (<AndroidExample />);
-  }
-}
+const App = () => (<FontLoader>
+  <Example />
+</FontLoader>
+);
+
+export default App;

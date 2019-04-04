@@ -13,10 +13,10 @@ module.exports = {
 
   resolver: {
     blacklistRE: blacklist([
-        new RegExp(
-          `^${escape(path.resolve(__dirname, '..', 'node_modules'))}\\/.*$`
-        ),
-      ]),
-    providesModuleNodeModules: ['@babel/runtime', ...peerDependencies],
+      new RegExp(
+        `^${escape(path.resolve(__dirname, '..', 'node_modules'))}\\/.*$`
+      )
+    ]),
+    providesModuleNodeModules: ['@babel/runtime', ...peerDependencies]
   }
 };
