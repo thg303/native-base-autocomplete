@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Platform, ViewPropTypes as RNViewPropTypes, StyleSheet } from 'react-native';
-import { Text, Input, View, Item, List, ListItem } from 'native-base';
+import { Platform, ViewPropTypes as RNViewPropTypes, StyleSheet, FlatList } from 'react-native';
+import { Text, Input, View, Item, ListItem } from 'native-base';
 
 const ViewPropTypes = RNViewPropTypes || View.propTypes;
 
@@ -73,7 +73,11 @@ class Autocomplete extends Component {
     /**
      * renders custom TextInput. All props passed to this function.
      */
-    renderTextInput: PropTypes.func
+    renderTextInput: PropTypes.func,
+    /**
+     * Used by `FlatList` to extract unique key for item.
+     */
+     keyExtractor: PropTypes.func
   };
 
   static defaultProps = {
@@ -84,7 +88,8 @@ class Autocomplete extends Component {
     renderItem: rowData => <ListItem onPress={() => {}}><Text>{rowData}</Text></ListItem>,
     listProps: null,
     renderTextInput: props => <Input {...props} />,
-    itemProps: {}
+    itemProps: {},
+    keyExtractor: (item, index) => `${index}`
   };
 
   constructor(props) {
@@ -109,7 +114,6 @@ class Autocomplete extends Component {
     textInput && textInput.focus();
   }
 
-  // TODO: check how to replace this List with native-base List and ListItem
 
   renderResultList() {
     const {
@@ -117,17 +121,19 @@ class Autocomplete extends Component {
       listStyle,
       renderItem,
       listProps,
-      keyboardShouldPersistTaps
+      keyboardShouldPersistTaps,
+      keyExtractor
     } = this.props;
 
     return (
-      <List
-        button={true}
+      <FlatList
         keyboardShouldPersistTaps={keyboardShouldPersistTaps}
         ref={(resultList) => { this.resultList = resultList; }}
-        dataArray={data}
-        renderRow={renderItem}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
         style={[styles.list, listStyle]}
+        
         {...listProps}
       />
     );
