@@ -130,7 +130,7 @@ class Autocomplete extends Component {
         keyboardShouldPersistTaps={keyboardShouldPersistTaps}
         ref={(resultList) => { this.resultList = resultList; }}
         data={data}
-        renderItem={renderItem}
+        renderItem={({key, item}) => renderItem(item)}
         keyExtractor={keyExtractor}
         style={[styles.list, listStyle]}
         

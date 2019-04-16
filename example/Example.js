@@ -13,7 +13,6 @@ import {
   Item,
   Input,
   Icon,
-  List,
   ListItem
 } from 'native-base';
 
@@ -67,11 +66,11 @@ class Example extends Component {
           <Item>
             <Input placeholder="a normal native-base Input" />
           </Item>
-          <List>
+          <View>
             <ListItem>
               <Text>native base list item</Text>
             </ListItem>
-          </List>
+          </View>
           <View style={styles.buttonContainer}>
             <Button style={styles.centerButton} primary={true}><Text> Native-Base </Text></Button>
             <Button style={styles.centerButton} success={true}><Text> Autocomplete </Text></Button>
