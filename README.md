@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
 | renderSeparator | function | this was unnecessary and removed! |
 | listProps | object | ﻿`listProps` will be applied to the List component which renders the suggestion list below the text input. please checkout `List` component at native-base documentation for available options. please note that *button*, *dataArray* and *renderRow* props are already token to make this component work. also please use `listStyle` instead of `style` to applying style |
 | renderTextInput | function | render custom TextInput. All props passed to this function. |
+| keyExtractor | function | Used by `FlatList` to extract unique key for item. Defaults to index. |
 
 ## Known issues
 * By default the autocomplete will not behave as expected inside a `<ScrollView />`. Set the scroll view's prop to fix this: `keyboardShouldPersistTaps={true}` for RN <= 0.39, or `keyboardShouldPersistTaps='always'` for RN >= 0.40.
