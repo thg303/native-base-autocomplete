@@ -6,7 +6,6 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import {
-  ListView,
   Text
 } from 'react-native';
 
@@ -19,13 +18,6 @@ const ITEMS = [
   "Revenge of the Sith"
 ];
 
-function overrideGetRowCount(autocomplete, data) {
-  const DataSourcePrototype = ListView.DataSource.prototype;
-  autocomplete.state().dataSource = Object.assign(DataSourcePrototype, {
-    getRowCount: () => data.length
-  });
-}
-
 describe('<AutocompleteInput />', () => {
   it('Should hide suggestion list on initial render', () => {
     const autocomplete = shallow(<Autocomplete data={[]} />);
@@ -35,7 +27,6 @@ describe('<AutocompleteInput />', () => {
 
   it('Should show suggestion list when data gets updated with length > 0', () => {
     const autocomplete = shallow(<Autocomplete data={[]} />);
-    overrideGetRowCount(autocomplete, ITEMS);
 
     autocomplete.setProps({ data: ITEMS });
     expect(autocomplete.childAt(1).children()).to.have.length(1);
@@ -43,7 +34,6 @@ describe('<AutocompleteInput />', () => {
 
   it('Should hide suggestion list when data gets updates with length < 1', () => {
     const autocomplete = shallow(<Autocomplete data={[]} />);
-    overrideGetRowCount(autocomplete, []);
 
     autocomplete.setProps({ data: [] });
     expect(autocomplete.childAt(1).children()).to.have.length(0);

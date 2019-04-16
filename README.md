@@ -108,7 +108,11 @@ const styles = StyleSheet.create({
 * If you want to test with Jest add ```jest.mock('native-base-autocomplete', () => 'Autocomplete');``` to your test.
 
 ## Contribute
-Feel free to open issues or do a PR!
+Feel free to open issues.
+
+ - Before submitting PR please open an issue, to make sure it's necessary.
+
+ - Please make sure PR keeps tests green, and add new ones if it's necessary.
 
 ## Credit
 package originally was made by **Laurence Bortfeld** as **react-native-autocomplete-input**

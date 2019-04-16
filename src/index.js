@@ -77,7 +77,7 @@ class Autocomplete extends Component {
     /**
      * Used by `FlatList` to extract unique key for item.
      */
-     keyExtractor: PropTypes.func
+    keyExtractor: PropTypes.func
   };
 
   static defaultProps = {
@@ -130,10 +130,10 @@ class Autocomplete extends Component {
         keyboardShouldPersistTaps={keyboardShouldPersistTaps}
         ref={(resultList) => { this.resultList = resultList; }}
         data={data}
-        renderItem={({key, item}) => renderItem(item)}
+        renderItem={arg => renderItem(arg.item)}
         keyExtractor={keyExtractor}
         style={[styles.list, listStyle]}
-        
+
         {...listProps}
       />
     );

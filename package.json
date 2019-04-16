@@ -4,7 +4,7 @@
   "description": "pure javascript autocomplete input for native-base",
   "main": "src/index.js",
   "options": {
-    "mocha": "--require react-native-mock/mock.js --require @babel/register ./__tests__/**/*.js --exclude ./node_modules/**/*.js*"
+    "mocha": "--require react-native-mock/mock.js --require ./nbmocker.js  --require @babel/register ./__tests__/*.js"
   },
   "scripts": {
     "coverage": "node_modules/.bin/nyc mocha $npm_package_options_mocha && node_modules/.bin/nyc report --reporter=lcov",
