@@ -65,7 +65,7 @@
     "prop-types": "^15.7.2",
     "react": "^15.4.2",
     "react-addons-test-utils": "^15.2.1",
-    "react-native": "^0.59.9",
+    "react-native": "^0.62.3",
     "react-native-mock": "^0.3.1",
     "react-test-renderer": "16.8.3",
     "sinon": "^1.17.4"
