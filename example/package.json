@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "babel-plugin-module-resolver": "^3.2.0",
-    "expo": "31.0.0",
+    "expo": "46.0.14",
     "native-base": "^2.12.1",
     "prop-types": "^15.7.2",
     "react": "16.5.0",
